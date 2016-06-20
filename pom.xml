@@ -105,5 +105,17 @@
         <!--Test End-->
     </dependencies>
 
+    <dependencyManagement>
+        <dependencies>
+            <!-- JERSEY Version management -->
+            <dependency>
+                <groupId>org.glassfish.jersey</groupId>
+                <artifactId>jersey-bom</artifactId>
+                <version>${jersey.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     
 </project>
