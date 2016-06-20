@@ -4,6 +4,7 @@ import eu.europeana.accessors.BoardAccessor;
 import eu.europeana.common.AccessorsManager;
 import eu.europeana.model.BoardData;
 import eu.europeana.model.Constants;
+import eu.europeana.model.PinsData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.glassfish.jersey.client.JerseyClientBuilder;
@@ -82,11 +83,14 @@ public class BoardAccessorBase implements BoardAccessor {
         Response response = target.request(MediaType.APPLICATION_JSON).get();
 
         short status = (short) response.getStatus();
-        System.out.println(response.readEntity(String.class));
+//        System.out.println(response.readEntity(String.class));
 
 //        PinsData pinsData = response.readEntity(new GenericType<PinsData>() {
 //        });
-//        System.out.println(pinsData);
+        PinsData pinsData = response.readEntity(PinsData.class);
+        System.out.println(pinsData);
+
+//        System.out.println(pinsData.getPins()[0].getMetadata().getMetadata().toString());
 
         if (status == 200) {
 //            CloudId cloudId = response.readEntity(CloudId.class);

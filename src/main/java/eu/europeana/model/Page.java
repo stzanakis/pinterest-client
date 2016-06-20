@@ -5,7 +5,6 @@ import eu.europeana.common.Tools;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -14,33 +13,32 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class PinsData {
-    @XmlElement(name = "data")
-    private Pin[] pins;
-    private Page page;
+public class Page {
+    private String cursor;
+    private String next;
 
-    public PinsData() {
+    public Page() {
     }
 
-    public PinsData(Pin[] pins, Page page) {
-        this.pins = pins;
-        this.page = page;
+    public Page(String cursor, String next) {
+        this.cursor = cursor;
+        this.next = next;
     }
 
-    public Pin[] getPins() {
-        return pins;
+    public String getCursor() {
+        return cursor;
     }
 
-    public void setPins(Pin[] pins) {
-        this.pins = pins;
+    public void setCursor(String cursor) {
+        this.cursor = cursor;
     }
 
-    public Page getPage() {
-        return page;
+    public String getNext() {
+        return next;
     }
 
-    public void setPage(Page page) {
-        this.page = page;
+    public void setNext(String next) {
+        this.next = next;
     }
 
     @Override

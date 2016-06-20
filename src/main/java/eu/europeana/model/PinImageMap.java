@@ -14,33 +14,23 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class PinsData {
-    @XmlElement(name = "data")
-    private Pin[] pins;
-    private Page page;
+public class PinImageMap {
+    @XmlElement(name="original")
+    private Image image;
 
-    public PinsData() {
+    public PinImageMap() {
     }
 
-    public PinsData(Pin[] pins, Page page) {
-        this.pins = pins;
-        this.page = page;
+    public PinImageMap(Image image) {
+        this.image = image;
     }
 
-    public Pin[] getPins() {
-        return pins;
+    public Image getImage() {
+        return image;
     }
 
-    public void setPins(Pin[] pins) {
-        this.pins = pins;
-    }
-
-    public Page getPage() {
-        return page;
-    }
-
-    public void setPage(Page page) {
-        this.page = page;
+    public void setImage(Image image) {
+        this.image = image;
     }
 
     @Override

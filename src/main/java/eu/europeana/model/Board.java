@@ -26,12 +26,12 @@ public class Board {
     private String reason;
     @XmlElement(name = "counts")
     private BoardCounts boardCounts;
-    private ImageMap image;
+    private BoardImageMap image;
 
     public Board() {
     }
 
-    public Board(String id, String name, String url, String description, Creator creator, String createdAt, String privacy, String reason, BoardCounts boardCounts, ImageMap image) {
+    public Board(String id, String name, String url, String description, Creator creator, String createdAt, String privacy, String reason, BoardCounts boardCounts, BoardImageMap image) {
         this.id = id;
         this.name = name;
         this.url = url;
@@ -116,11 +116,11 @@ public class Board {
         this.boardCounts = boardCounts;
     }
 
-    public ImageMap getImage() {
+    public BoardImageMap getImage() {
         return image;
     }
 
-    public void setImage(ImageMap image) {
+    public void setImage(BoardImageMap image) {
         this.image = image;
     }
 

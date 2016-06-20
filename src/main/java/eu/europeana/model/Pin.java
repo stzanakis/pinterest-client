@@ -17,6 +17,8 @@ public class Pin {
     private String url;
     private Creator creator;
     private Board board;
+    @XmlElement(name = "original_link")
+    private String originalLink;
     @XmlElement(name = "created_at")
     private String createdAt;
     private String note;
@@ -25,18 +27,19 @@ public class Pin {
     private PinCounts pinCounts;
     private Media media;
     private Attribution attribution;
-    private ImageMap image;
+    private PinImageMap image;
     private Metadata metadata;
 
     public Pin() {
     }
 
-    public Pin(String id, String link, String url, Creator creator, Board board, String createdAt, String note, String color, PinCounts pinCounts, Media media, Attribution attribution, ImageMap image, Metadata metadata) {
+    public Pin(String id, String link, String url, Creator creator, Board board, String originalLink, String createdAt, String note, String color, PinCounts pinCounts, Media media, Attribution attribution, PinImageMap image, Metadata metadata) {
         this.id = id;
         this.link = link;
         this.url = url;
         this.creator = creator;
         this.board = board;
+        this.originalLink = originalLink;
         this.createdAt = createdAt;
         this.note = note;
         this.color = color;
@@ -135,11 +138,11 @@ public class Pin {
         this.attribution = attribution;
     }
 
-    public ImageMap getImage() {
+    public PinImageMap getImage() {
         return image;
     }
 
-    public void setImage(ImageMap image) {
+    public void setImage(PinImageMap image) {
         this.image = image;
     }
 
@@ -149,5 +152,13 @@ public class Pin {
 
     public void setMetadata(Metadata metadata) {
         this.metadata = metadata;
+    }
+
+    public String getOriginalLink() {
+        return originalLink;
+    }
+
+    public void setOriginalLink(String originalLink) {
+        this.originalLink = originalLink;
     }
 }
