@@ -2,9 +2,8 @@ package eu.europeana.accessors.base;
 
 import eu.europeana.accessors.BoardAccessor;
 import eu.europeana.common.AccessorsManager;
-import eu.europeana.model.Board;
 import eu.europeana.model.Constants;
-import eu.europeana.model.Data;
+import eu.europeana.model.BoardData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.glassfish.jersey.client.JerseyClientBuilder;
@@ -50,8 +49,8 @@ public class BoardAccessorBase implements BoardAccessor {
 
         short status = (short) response.getStatus();
 //        System.out.println(response.readEntity(String.class));
-        Data<Board> data = response.readEntity(new GenericType<Data<Board>>() {});
-        System.out.println(data.getData());
+        BoardData boardData = response.readEntity(new GenericType<BoardData>() {});
+        System.out.println(boardData.getBoard());
 
         if (status == 200) {
 //            CloudId cloudId = response.readEntity(CloudId.class);
@@ -78,7 +77,8 @@ public class BoardAccessorBase implements BoardAccessor {
         target = target.path(Constants.V1_PATH.getConstant()).path(Constants.BOARDS_PATH.getConstant())
                 .path(user).path(board).path(Constants.PINS_PATH.getConstant())
                 .queryParam(Constants.ACCESS_TOKEN.getConstant(), AccessorsManager.getAccessToken())
-                .queryParam(Constants.FIELDS.getConstant(), "id,link,note,url");
+//                .queryParam(Constants.FIELDS.getConstant(), "id,link,note,url");
+                .queryParam(Constants.FIELDS.getConstant(), "id,link,note,url,original_link,attribution,board,color,counts,created_at,creator,image,media,metadata");
         Response response = target.request(MediaType.APPLICATION_JSON).get();
 
         short status = (short) response.getStatus();
