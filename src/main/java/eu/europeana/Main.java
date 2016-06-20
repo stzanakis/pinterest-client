@@ -41,7 +41,8 @@ public class Main {
 
         //PLAYGROUND START
 
-        System.out.println(boardAccessor.getPinsFromBoard("europeana", "nymphs"));
+        System.out.println(boardAccessor.getBoardInformation("europeana", "Heroes"));
+//        System.out.println(boardAccessor.getPinsFromBoard("europeana", "nymphs"));
 
         //PLAYGROUND END
 

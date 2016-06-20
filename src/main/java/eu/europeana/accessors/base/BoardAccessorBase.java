@@ -2,13 +2,16 @@ package eu.europeana.accessors.base;
 
 import eu.europeana.accessors.BoardAccessor;
 import eu.europeana.common.AccessorsManager;
+import eu.europeana.model.Board;
 import eu.europeana.model.Constants;
+import eu.europeana.model.Data;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.glassfish.jersey.client.JerseyClientBuilder;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.net.MalformedURLException;
@@ -41,11 +44,14 @@ public class BoardAccessorBase implements BoardAccessor {
         target = target.path(Constants.V1_PATH.getConstant()).path(Constants.BOARDS_PATH.getConstant())
                 .path(user).path(board)
                 .queryParam(Constants.ACCESS_TOKEN.getConstant(), AccessorsManager.getAccessToken())
-                .queryParam(Constants.FIELDS.getConstant(), "id,name,url");
+//                .queryParam(Constants.FIELDS.getConstant(), "id,name,url");
+                .queryParam(Constants.FIELDS.getConstant(), "id,name,url,counts,created_at,creator,description,image,privacy,reason");
         Response response = target.request(MediaType.APPLICATION_JSON).get();
 
         short status = (short) response.getStatus();
-        System.out.println(response.readEntity(String.class));
+//        System.out.println(response.readEntity(String.class));
+        Data<Board> data = response.readEntity(new GenericType<Data<Board>>() {});
+        System.out.println(data.getData());
 
         if (status == 200) {
 //            CloudId cloudId = response.readEntity(CloudId.class);
