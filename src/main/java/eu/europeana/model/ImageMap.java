@@ -6,10 +6,15 @@ import javax.xml.bind.annotation.*;
  * @author Simon Tzanakis (Simon.Tzanakis@europeana.eu)
  * @since 2016-06-20
  */
-@XmlRootElement
+@XmlSeeAlso({ Image.class})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ImageMap {
-    @XmlElement(name = "60x60")
+    @XmlElements(value = {
+            @XmlElement(name="60x60",
+                    type=Image.class),
+            @XmlElement(name="original",
+                    type=Image.class)
+    })
     private Image image;
 
     public ImageMap() {
