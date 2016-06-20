@@ -24,13 +24,14 @@ public class Board {
     private String createdAt;
     private String privacy;
     private String reason;
-    private Counts counts;
+    @XmlElement(name = "counts")
+    private BoardCounts boardCounts;
     private ImageMap image;
 
     public Board() {
     }
 
-    public Board(String id, String name, String url, String description, Creator creator, String createdAt, String privacy, String reason, Counts counts, ImageMap image) {
+    public Board(String id, String name, String url, String description, Creator creator, String createdAt, String privacy, String reason, BoardCounts boardCounts, ImageMap image) {
         this.id = id;
         this.name = name;
         this.url = url;
@@ -39,7 +40,7 @@ public class Board {
         this.createdAt = createdAt;
         this.privacy = privacy;
         this.reason = reason;
-        this.counts = counts;
+        this.boardCounts = boardCounts;
         this.image = image;
     }
 
@@ -107,12 +108,12 @@ public class Board {
         this.reason = reason;
     }
 
-    public Counts getCounts() {
-        return counts;
+    public BoardCounts getBoardCounts() {
+        return boardCounts;
     }
 
-    public void setCounts(Counts counts) {
-        this.counts = counts;
+    public void setBoardCounts(BoardCounts boardCounts) {
+        this.boardCounts = boardCounts;
     }
 
     public ImageMap getImage() {

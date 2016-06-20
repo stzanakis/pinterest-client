@@ -13,15 +13,15 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Counts {
+public class BoardCounts {
     private long pins;
     private long collaborators;
     private long followers;
 
-    public Counts() {
+    public BoardCounts() {
     }
 
-    public Counts(long pins, long collaborators, long followers) {
+    public BoardCounts(long pins, long collaborators, long followers) {
         this.pins = pins;
         this.collaborators = collaborators;
         this.followers = followers;
