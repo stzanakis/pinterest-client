@@ -39,8 +39,10 @@ public class AccessorsManager {
 
     public void closeAllAccessors()
     {
+        logger.info("Closing all http clients");
         meAccessor.close();
         boardAccessor.close();
+        logger.info("Closing all http clients");
     }
 
     public static String getAccessToken() {

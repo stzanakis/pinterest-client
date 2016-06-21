@@ -37,10 +37,6 @@ public class MeAccessorBase implements MeAccessor {
         logger.info("Initialized http client with target url: {}", this.accessorUrl);
     }
 
-    public void close() {
-        client.close();
-    }
-
     public String getMe() {
         WebTarget target = client.target(accessorUrl.toString());
         target = target.path(Constants.V1_PATH.getConstant()).path(Constants.ME_PATH.getConstant())
@@ -89,5 +85,11 @@ public class MeAccessorBase implements MeAccessor {
 
     public String getMyLikedPins() {
         return null;
+    }
+
+    public void close() {
+        logger.info("Closing http client");
+        client.close();
+        logger.info("Closing http client with target url: {}", this.accessorUrl);
     }
 }
