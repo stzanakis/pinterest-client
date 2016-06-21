@@ -93,6 +93,17 @@ public class BoardAccessorBase implements BoardAccessor {
         return boardsInternalNames;
     }
 
+    public List<String> getAllBoardsDisplayName() throws BadRequest, DoesNotExistException, URISyntaxException {
+        BoardsData boardsData = retrieveAllBoards("name");
+
+        LinkedList<String> boardsInternalNames = new LinkedList<String>();
+        for (Board board :
+                boardsData.getBoards()) {
+            boardsInternalNames.add(board.getName());
+        }
+        return boardsInternalNames;
+    }
+
     public BoardsData retrieveAllBoards(String fields) throws BadRequest, DoesNotExistException {
         WebTarget target = client.target(accessorUrl.toString());
         target = target.path(Constants.V1_PATH.getConstant()).path(Constants.ME_PATH.getConstant())
@@ -193,6 +204,8 @@ public class BoardAccessorBase implements BoardAccessor {
     }
 
     public void close() {
+        logger.info("Closing http client");
         client.close();
+        logger.info("Closing http client with target url: {}", this.accessorUrl);
     }
 }
