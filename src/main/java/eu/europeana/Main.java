@@ -4,6 +4,8 @@ package eu.europeana;
 import eu.europeana.accessors.BoardAccessor;
 import eu.europeana.accessors.MeAccessor;
 import eu.europeana.common.AccessorsManager;
+import eu.europeana.exceptions.BadRequest;
+import eu.europeana.exceptions.DoesNotExistException;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.PropertiesConfigurationLayout;
@@ -20,7 +22,7 @@ import java.io.FileReader;
  */
 public class Main {
     private static final Logger logger = LogManager.getLogger();
-    public static void main(String[] args) throws FileNotFoundException, ConfigurationException {
+    public static void main(String[] args) throws FileNotFoundException, ConfigurationException, DoesNotExistException, BadRequest {
         logger.info("Started in Main");
 
         //INITIALIZE START
@@ -45,6 +47,8 @@ public class Main {
 //        System.out.println(boardAccessor.getBoardInformation("europeana", "Heroes"));
 //        System.out.println(boardAccessor.getPinsFromBoard("simontzanakis", "Places"));
 //        System.out.println(boardAccessor.getPinsFromBoard("europeana", "Heroes"));
+
+        System.out.println(boardAccessor.getAllBoards());
 
         //PLAYGROUND END
 
