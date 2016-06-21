@@ -75,12 +75,12 @@ public class MeAccessorBase implements MeAccessor {
         return null;
     }
 
-    public BoardsData getAllBoards() throws BadRequest, DoesNotExistException {
-        return retrieveAllBoards("id,name,url,counts,created_at,creator,description,image,privacy,reason");
+    public BoardsData getAllMyBoards() throws BadRequest, DoesNotExistException {
+        return retrieveAllMyBoards("id,name,url,counts,created_at,creator,description,image,privacy,reason");
     }
 
-    public List<String> getAllBoardsInternalName() throws BadRequest, DoesNotExistException, URISyntaxException {
-        BoardsData boardsData = retrieveAllBoards("url");
+    public List<String> getAllMyBoardsInternalName() throws BadRequest, DoesNotExistException, URISyntaxException {
+        BoardsData boardsData = retrieveAllMyBoards("url");
 
         LinkedList<String> boardsInternalNames = new LinkedList<String>();
         for (Board board :
@@ -91,8 +91,8 @@ public class MeAccessorBase implements MeAccessor {
         return boardsInternalNames;
     }
 
-    public List<String> getAllBoardsDisplayName() throws BadRequest, DoesNotExistException, URISyntaxException {
-        BoardsData boardsData = retrieveAllBoards("name");
+    public List<String> getAllMyBoardsDisplayName() throws BadRequest, DoesNotExistException, URISyntaxException {
+        BoardsData boardsData = retrieveAllMyBoards("name");
 
         LinkedList<String> boardsInternalNames = new LinkedList<String>();
         for (Board board :
@@ -102,7 +102,7 @@ public class MeAccessorBase implements MeAccessor {
         return boardsInternalNames;
     }
 
-    public BoardsData retrieveAllBoards(String fields) throws BadRequest, DoesNotExistException {
+    public BoardsData retrieveAllMyBoards(String fields) throws BadRequest, DoesNotExistException {
         WebTarget target = client.target(accessorUrl.toString());
         target = target.path(Constants.V1_PATH.getConstant()).path(Constants.ME_PATH.getConstant())
                 .path(Constants.BOARDS_PATH.getConstant())
@@ -114,7 +114,7 @@ public class MeAccessorBase implements MeAccessor {
 
         if (status == 200) {
             BoardsData boardsData = response.readEntity(BoardsData.class);
-            logger.info("getAllBoards: " + target.getUri() + ", response: " + status + ", returned a list of results!");
+            logger.info("retrieveAllMyBoards: " + target.getUri() + ", response: " + status + ", returned a list of results!");
             return boardsData;
         }
         else{

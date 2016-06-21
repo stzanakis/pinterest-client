@@ -49,9 +49,9 @@ public class Main {
 //        System.out.println(boardAccessor.getPinsFromBoard("simontzanakis", "Places"));
 //        System.out.println(boardAccessor.getPinsFromBoard("europeana", "Heroes"));
 
-//        System.out.println(boardAccessor.getAllBoards());
+//        System.out.println(boardAccessor.getAllMyBoards());
 
-        System.out.println(meAccessor.getAllBoardsDisplayName());
+        System.out.println(meAccessor.getAllMyBoardsDisplayName());
         //PLAYGROUND END
 
 
