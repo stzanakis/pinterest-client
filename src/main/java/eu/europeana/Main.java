@@ -15,6 +15,7 @@ import org.apache.logging.log4j.Logger;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.net.URISyntaxException;
 
 /**
  * @author Simon Tzanakis (Simon.Tzanakis@europeana.eu)
@@ -22,7 +23,7 @@ import java.io.FileReader;
  */
 public class Main {
     private static final Logger logger = LogManager.getLogger();
-    public static void main(String[] args) throws FileNotFoundException, ConfigurationException, DoesNotExistException, BadRequest {
+    public static void main(String[] args) throws FileNotFoundException, ConfigurationException, DoesNotExistException, BadRequest, URISyntaxException {
         logger.info("Started in Main");
 
         //INITIALIZE START
@@ -48,8 +49,9 @@ public class Main {
 //        System.out.println(boardAccessor.getPinsFromBoard("simontzanakis", "Places"));
 //        System.out.println(boardAccessor.getPinsFromBoard("europeana", "Heroes"));
 
-        System.out.println(boardAccessor.getAllBoards());
+//        System.out.println(boardAccessor.getAllBoards());
 
+        System.out.println(boardAccessor.getAllBoardsInternalName());
         //PLAYGROUND END
 
 
