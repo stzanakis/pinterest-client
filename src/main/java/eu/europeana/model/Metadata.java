@@ -4,7 +4,6 @@ import eu.europeana.common.Tools;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.*;
-import java.util.LinkedHashMap;
 
 /**
  * @author Simon Tzanakis (Simon.Tzanakis@europeana.eu)
@@ -14,24 +13,25 @@ import java.util.LinkedHashMap;
 //@JsonIgnoreProperties(ignoreUnknown = true)
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Metadata {
-//    @XmlElements(value = {
-//            @XmlElement(name="place"),
-//            @XmlElement(name="link")
-//    })
-    private LinkedHashMap<String, String> metadata;
+    @XmlElements(value = {
+            @XmlElement(name="place", type = Place.class),
+            @XmlElement(name="link", type = Link.class),
+            @XmlElement(name="article", type = Article.class)
+    })
+    private Object metadata;
 
     public Metadata() {
     }
 
-    public Metadata(LinkedHashMap<String, String> metadata) {
+    public Metadata(Object metadata) {
         this.metadata = metadata;
     }
 
-    public LinkedHashMap<String, String> getMetadata() {
+    public Object getMetadata() {
         return metadata;
     }
 
-    public void setMetadata(LinkedHashMap<String, String> metadata) {
+    public void setMetadata(Object metadata) {
         this.metadata = metadata;
     }
 

@@ -24,31 +24,33 @@ public class Main {
         logger.info("Started in Main");
 
         //INITIALIZE START
+        AccessorsManager am = new AccessorsManager("/data/credentials/pinterest-client");
+
         PropertiesConfiguration propertiesConfiguration = new PropertiesConfiguration();
         PropertiesConfigurationLayout configurationPropertiesLayout = new PropertiesConfigurationLayout(propertiesConfiguration);
-        File credentialsFile = new File(AccessorsManager.getDefaultPropertiesPath() + "/" + AccessorsManager.getCredentialsFileName());
+        File credentialsFile = new File(am.getDefaultPropertiesPath() + "/" + AccessorsManager.getCredentialsFileName());
         if(credentialsFile.exists())
             configurationPropertiesLayout.load(new FileReader(credentialsFile));
         else
             configurationPropertiesLayout.load(new FileReader(Main.class.getClassLoader().getResource(AccessorsManager.getCredentialsFileName()).getFile()));
 
-        AccessorsManager accessorsManager = new AccessorsManager();
-        accessorsManager.initializeAllAccessors(propertiesConfiguration.getProperty(AccessorsManager.getAccessUrl_key()).toString());
-        MeAccessor meAccessor = accessorsManager.getMeAccessor();
-        BoardAccessor boardAccessor = accessorsManager.getBoardAccessor();
+        am.initializeAllAccessors(propertiesConfiguration.getProperty(AccessorsManager.getAccessUrl_key()).toString());
+        MeAccessor meAccessor = am.getMeAccessor();
+        BoardAccessor boardAccessor = am.getBoardAccessor();
         //INITIALIZE END
 
 
         //PLAYGROUND START
 
 //        System.out.println(boardAccessor.getBoardInformation("europeana", "Heroes"));
-        System.out.println(boardAccessor.getPinsFromBoard("simontzanakis", "Places"));
+//        System.out.println(boardAccessor.getPinsFromBoard("simontzanakis", "Places"));
+        System.out.println(boardAccessor.getPinsFromBoard("europeana", "Heroes"));
 
         //PLAYGROUND END
 
 
         //CLOSE START
-        accessorsManager.closeAllAccessors();
+        am.closeAllAccessors();
         //CLOSE END
 
         logger.info("Ended in Main");

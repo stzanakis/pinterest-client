@@ -19,11 +19,15 @@ import java.io.IOException;
 public class AccessorsManager {
     private static final Logger logger = LogManager.getLogger();
     private final static String accessUrl_key = "accessUrl";
-    private final static String defaultPropertiesPath = "/data/credentials/pinterest-client";
+    private static String defaultPropertiesPath;
     private final static String credentialsFileName = "credentials.properties";
     private final static String accessTokenFileName = "access_token.txt";
     private MeAccessor meAccessor;
     private BoardAccessor boardAccessor;
+
+    public AccessorsManager(String defaultPropertiesPath) {
+        this.defaultPropertiesPath = defaultPropertiesPath;
+    }
 
     public void initializeAllAccessors(String accessUrl)
     {
@@ -42,7 +46,7 @@ public class AccessorsManager {
     public static String getAccessToken() {
         String access_token = null;
         try {
-            BufferedReader brTest = new BufferedReader(new FileReader(new File(AccessorsManager.getDefaultPropertiesPath() + "/" + AccessorsManager.getAccessTokenFileName())));
+            BufferedReader brTest = new BufferedReader(new FileReader(new File(defaultPropertiesPath + "/" + AccessorsManager.getAccessTokenFileName())));
             access_token = brTest .readLine();
         } catch (IOException e) {
             e.printStackTrace();
@@ -62,7 +66,7 @@ public class AccessorsManager {
         return accessUrl_key;
     }
 
-    public static String getDefaultPropertiesPath() {
+    public String getDefaultPropertiesPath() {
         return defaultPropertiesPath;
     }
 
