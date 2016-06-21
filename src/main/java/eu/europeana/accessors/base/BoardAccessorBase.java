@@ -2,6 +2,8 @@ package eu.europeana.accessors.base;
 
 import eu.europeana.accessors.BoardAccessor;
 import eu.europeana.common.AccessorsManager;
+import eu.europeana.exceptions.BadRequest;
+import eu.europeana.exceptions.DoesNotExistException;
 import eu.europeana.model.BoardData;
 import eu.europeana.model.Constants;
 import eu.europeana.model.PinsData;
@@ -73,7 +75,7 @@ public class BoardAccessorBase implements BoardAccessor {
         return null;
     }
 
-    public String getPinsFromBoard(String user, String board) {
+    public PinsData getPinsFromBoard(String user, String board) throws DoesNotExistException, BadRequest {
         WebTarget target = client.target(accessorUrl.toString());
         target = target.path(Constants.V1_PATH.getConstant()).path(Constants.BOARDS_PATH.getConstant())
                 .path(user).path(board).path(Constants.PINS_PATH.getConstant())
@@ -87,29 +89,30 @@ public class BoardAccessorBase implements BoardAccessor {
 
 //        PinsData pinsData = response.readEntity(new GenericType<PinsData>() {
 //        });
-        PinsData pinsData = response.readEntity(PinsData.class);
-        System.out.println(pinsData);
+
+//        System.out.println(status);
+//        System.out.println(response.getHeaders());
+//        System.out.println(pinsData);
 
 //        System.out.println(pinsData.getPins()[0].getMetadata().getMetadata().toString());
 
         if (status == 200) {
-//            CloudId cloudId = response.readEntity(CloudId.class);
-//            logger.info("getCloudId: " + target.getUri() + ", response: " + status + ", Cloud Id with id: " + cloudId.getId() + " exists!");
-//            return cloudId;
+            PinsData pinsData = response.readEntity(PinsData.class);
+            logger.info("getPinsFromBoard: " + target.getUri() + ", response: " + status + ", returned a list of results!");
+            return pinsData;
         }
         else{
-//            String errorString = Tools.parseResponse(target.getUri().toString(), status, response);
-//            logger.error(errorString);
-//            switch (status)
-//            {
-//                case 404:
-//                    throw new DoesNotExistException(errorString);
-//                default:
-//                    Tools.generalExceptionHandler(status, errorString);
-//            }
+            String errorString = response.readEntity(String.class);
+            logger.error(errorString);
+            switch (status)
+            {
+                case 400:
+                    throw new BadRequest(errorString);
+                case 404:
+                    throw new DoesNotExistException(errorString);
+            }
             return null;
         }
-        return null;
     }
 
     public void close() {
