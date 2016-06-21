@@ -20,7 +20,7 @@ public class AccessorsManager {
     private static final Logger logger = LogManager.getLogger();
     private final static String accessUrl_key = "accessUrl";
     private static String defaultPropertiesPath;
-    private final static String credentialsFileName = "credentials.properties";
+    private final static String configurationFileName = "configuration-pinterest.properties";
     private final static String accessTokenFileName = "access_token.txt";
     private MeAccessor meAccessor;
     private BoardAccessor boardAccessor;
@@ -70,8 +70,8 @@ public class AccessorsManager {
         return defaultPropertiesPath;
     }
 
-    public static String getCredentialsFileName() {
-        return credentialsFileName;
+    public static String getConfigurationFileName() {
+        return configurationFileName;
     }
 
     public static String getAccessTokenFileName() {

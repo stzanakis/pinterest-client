@@ -28,11 +28,11 @@ public class Main {
 
         PropertiesConfiguration propertiesConfiguration = new PropertiesConfiguration();
         PropertiesConfigurationLayout configurationPropertiesLayout = new PropertiesConfigurationLayout(propertiesConfiguration);
-        File credentialsFile = new File(am.getDefaultPropertiesPath() + "/" + AccessorsManager.getCredentialsFileName());
+        File credentialsFile = new File(am.getDefaultPropertiesPath() + "/" + AccessorsManager.getConfigurationFileName());
         if(credentialsFile.exists())
             configurationPropertiesLayout.load(new FileReader(credentialsFile));
         else
-            configurationPropertiesLayout.load(new FileReader(Main.class.getClassLoader().getResource(AccessorsManager.getCredentialsFileName()).getFile()));
+            configurationPropertiesLayout.load(new FileReader(Main.class.getClassLoader().getResource(AccessorsManager.getConfigurationFileName()).getFile()));
 
         am.initializeAllAccessors(propertiesConfiguration.getProperty(AccessorsManager.getAccessUrl_key()).toString());
         MeAccessor meAccessor = am.getMeAccessor();
@@ -44,7 +44,7 @@ public class Main {
 
 //        System.out.println(boardAccessor.getBoardInformation("europeana", "Heroes"));
 //        System.out.println(boardAccessor.getPinsFromBoard("simontzanakis", "Places"));
-        System.out.println(boardAccessor.getPinsFromBoard("europeana", "Heroes"));
+//        System.out.println(boardAccessor.getPinsFromBoard("europeana", "Heroes"));
 
         //PLAYGROUND END
 
