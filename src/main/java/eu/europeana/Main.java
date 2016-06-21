@@ -51,7 +51,7 @@ public class Main {
 
 //        System.out.println(boardAccessor.getAllBoards());
 
-//        System.out.println(boardAccessor.getAllBoardsDisplayName());
+        System.out.println(meAccessor.getAllBoardsDisplayName());
         //PLAYGROUND END
 
 

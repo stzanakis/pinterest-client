@@ -2,10 +2,11 @@ package eu.europeana.accessors.base;
 
 import eu.europeana.accessors.BoardAccessor;
 import eu.europeana.common.AccessorsManager;
-import eu.europeana.common.Tools;
 import eu.europeana.exceptions.BadRequest;
 import eu.europeana.exceptions.DoesNotExistException;
-import eu.europeana.model.*;
+import eu.europeana.model.BoardData;
+import eu.europeana.model.Constants;
+import eu.europeana.model.PinsData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.glassfish.jersey.client.JerseyClientBuilder;
@@ -16,10 +17,7 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * @author Simon Tzanakis (Simon.Tzanakis@europeana.eu)
@@ -76,92 +74,6 @@ public class BoardAccessorBase implements BoardAccessor {
         }
         return null;
     }
-
-    public BoardsData getAllBoards() throws BadRequest, DoesNotExistException {
-        return retrieveAllBoards("id,name,url,counts,created_at,creator,description,image,privacy,reason");
-    }
-
-    public List<String> getAllBoardsInternalName() throws BadRequest, DoesNotExistException, URISyntaxException {
-        BoardsData boardsData = retrieveAllBoards("url");
-
-        LinkedList<String> boardsInternalNames = new LinkedList<String>();
-        for (Board board :
-                boardsData.getBoards()) {
-            String boardInternalName = Tools.retrieveLastPathFromUrl(board.getUrl());
-            boardsInternalNames.add(boardInternalName);
-        }
-        return boardsInternalNames;
-    }
-
-    public List<String> getAllBoardsDisplayName() throws BadRequest, DoesNotExistException, URISyntaxException {
-        BoardsData boardsData = retrieveAllBoards("name");
-
-        LinkedList<String> boardsInternalNames = new LinkedList<String>();
-        for (Board board :
-                boardsData.getBoards()) {
-            boardsInternalNames.add(board.getName());
-        }
-        return boardsInternalNames;
-    }
-
-    public BoardsData retrieveAllBoards(String fields) throws BadRequest, DoesNotExistException {
-        WebTarget target = client.target(accessorUrl.toString());
-        target = target.path(Constants.V1_PATH.getConstant()).path(Constants.ME_PATH.getConstant())
-                .path(Constants.BOARDS_PATH.getConstant())
-                .queryParam(Constants.ACCESS_TOKEN.getConstant(), AccessorsManager.getAccessToken())
-                .queryParam(Constants.FIELDS.getConstant(), fields);
-        Response response = target.request(MediaType.APPLICATION_JSON).get();
-
-        short status = (short) response.getStatus();
-
-        if (status == 200) {
-            BoardsData boardsData = response.readEntity(BoardsData.class);
-            logger.info("getAllBoards: " + target.getUri() + ", response: " + status + ", returned a list of results!");
-            return boardsData;
-        }
-        else{
-            String errorString = response.readEntity(String.class);
-            logger.error(errorString);
-            switch (status)
-            {
-                case 400:
-                    throw new BadRequest(errorString);
-                case 404:
-                    throw new DoesNotExistException(errorString);
-            }
-            return null;
-        }
-    }
-
-//    public List<String> getAllBoardsInternalNames() throws BadRequest, DoesNotExistException {
-//        WebTarget target = client.target(accessorUrl.toString());
-//        target = target.path(Constants.V1_PATH.getConstant()).path(Constants.ME_PATH.getConstant())
-//                .path(Constants.BOARDS_PATH.getConstant())
-//                .queryParam(Constants.ACCESS_TOKEN.getConstant(), AccessorsManager.getAccessToken())
-//                .queryParam(Constants.FIELDS.getConstant(), "url");
-//        Response response = target.request(MediaType.APPLICATION_JSON).get();
-//
-//        short status = (short) response.getStatus();
-//
-//        if (status == 200) {
-//            BoardsData boardsData = response.readEntity(BoardsData.class);
-//            logger.info("getAllBoards: " + target.getUri() + ", response: " + status + ", returned a list of results!");
-//            return boardsData;
-//        }
-//        else{
-//            String errorString = response.readEntity(String.class);
-//            logger.error(errorString);
-//            switch (status)
-//            {
-//                case 400:
-//                    throw new BadRequest(errorString);
-//                case 404:
-//                    throw new DoesNotExistException(errorString);
-//            }
-//            return null;
-//        }
-//    }
-
 
     public PinsData getPinsFromBoard(String user, String board) throws DoesNotExistException, BadRequest {
         WebTarget target = client.target(accessorUrl.toString());
