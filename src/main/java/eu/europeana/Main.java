@@ -7,14 +7,10 @@ import eu.europeana.common.AccessorsManager;
 import eu.europeana.exceptions.BadRequest;
 import eu.europeana.exceptions.DoesNotExistException;
 import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.PropertiesConfiguration;
-import org.apache.commons.configuration.PropertiesConfigurationLayout;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.net.URISyntaxException;
 
 /**
@@ -29,15 +25,7 @@ public class Main {
         //INITIALIZE START
         AccessorsManager am = new AccessorsManager("/data/credentials/pinterest-client");
 
-        PropertiesConfiguration propertiesConfiguration = new PropertiesConfiguration();
-        PropertiesConfigurationLayout configurationPropertiesLayout = new PropertiesConfigurationLayout(propertiesConfiguration);
-        File credentialsFile = new File(am.getDefaultPropertiesPath() + "/" + AccessorsManager.getConfigurationFileName());
-        if(credentialsFile.exists())
-            configurationPropertiesLayout.load(new FileReader(credentialsFile));
-        else
-            configurationPropertiesLayout.load(new FileReader(Main.class.getClassLoader().getResource(AccessorsManager.getConfigurationFileName()).getFile()));
-
-        am.initializeAllAccessors(propertiesConfiguration.getProperty(AccessorsManager.getAccessUrl_key()).toString());
+        am.initializeAllAccessors();
         MeAccessor meAccessor = am.getMeAccessor();
         BoardAccessor boardAccessor = am.getBoardAccessor();
         //INITIALIZE END
