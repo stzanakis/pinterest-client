@@ -11,6 +11,7 @@ public enum Constants {
     PINS_PATH("pins"),
     FOLLOWERS_PATH("followers"),
     ACCESS_TOKEN("access_token"),
+    LIMIT("limit"),
     FIELDS("fields");
 
     private String constant;

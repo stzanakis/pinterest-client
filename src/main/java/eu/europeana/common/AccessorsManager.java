@@ -17,7 +17,9 @@ import java.io.*;
  */
 public class AccessorsManager {
     private static final Logger logger = LogManager.getLogger();
-    private final static String accessUrlKey = "accessUrl";
+    private final String accessUrlKey = "accessUrl";
+    private String maxResultsPerRequestKey = "maxResultsPerRequest";
+    private int maxResultsPerRequestValue;
     private String accessUrlValue;
     private static String defaultPropertiesPath;
     private final static String configurationFileName = "configuration-pinterest.properties";
@@ -28,22 +30,23 @@ public class AccessorsManager {
     public AccessorsManager(String defaultPropertiesPath) throws FileNotFoundException, ConfigurationException {
         this.defaultPropertiesPath = defaultPropertiesPath;
         PropertiesConfiguration propertiesConfiguration = Configuration.loadConfiguration(AccessorsManager.getDefaultPropertiesPath(), AccessorsManager.getConfigurationFileName());
-        accessUrlValue = propertiesConfiguration.getProperty(AccessorsManager.getAccessUrlKey()).toString();
+        accessUrlValue = propertiesConfiguration.getProperty(accessUrlKey).toString();
+        maxResultsPerRequestValue = Integer.parseInt(propertiesConfiguration.getProperty(maxResultsPerRequestKey).toString());
     }
 
-    public void initializeAllAccessors(String accessUrl)
+    public void initializeAllAccessors(String accessUrl, int maxResultsPerRequestValue)
     {
         logger.info("Initializing all http clients");
-        meAccessor = new MeAccessorBase(accessUrl);
-        boardAccessor = new BoardAccessorBase(accessUrl);
+        meAccessor = new MeAccessorBase(accessUrl, maxResultsPerRequestValue);
+        boardAccessor = new BoardAccessorBase(accessUrl, maxResultsPerRequestValue);
         logger.info("Initialized all http clients");
     }
 
     public void initializeAllAccessors()
     {
         logger.info("Initializing all http clients");
-        meAccessor = new MeAccessorBase(accessUrlValue);
-        boardAccessor = new BoardAccessorBase(accessUrlValue);
+        meAccessor = new MeAccessorBase(accessUrlValue, maxResultsPerRequestValue);
+        boardAccessor = new BoardAccessorBase(accessUrlValue, maxResultsPerRequestValue);
         logger.info("Initialized all http clients");
     }
 
@@ -74,7 +77,7 @@ public class AccessorsManager {
         return boardAccessor;
     }
 
-    public static String getAccessUrlKey() {
+    public String getAccessUrlKey() {
         return accessUrlKey;
     }
 
@@ -88,5 +91,17 @@ public class AccessorsManager {
 
     public static String getAccessTokenFileName() {
         return accessTokenFileName;
+    }
+
+    public String getMaxResultsPerRequestKey() {
+        return maxResultsPerRequestKey;
+    }
+
+    public int getMaxResultsPerRequestValue() {
+        return maxResultsPerRequestValue;
+    }
+
+    public void setMaxResultsPerRequestValue(int maxResultsPerRequestValue) {
+        this.maxResultsPerRequestValue = maxResultsPerRequestValue;
     }
 }

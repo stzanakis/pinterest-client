@@ -28,12 +28,14 @@ public class BoardAccessorBase implements BoardAccessor {
 
     private static final Logger logger = LogManager.getLogger();
     private Client client = JerseyClientBuilder.newClient();
-    URL accessorUrl;
+    private URL accessorUrl;
+    private int maxResultsPerRequest;
 
-    public BoardAccessorBase(String accessUrl) {
+    public BoardAccessorBase(String accessUrl, int maxResultsPerRequest) {
         logger.info("Initializing http client");
         try {
             this.accessorUrl = new URL(accessUrl);
+            this.maxResultsPerRequest = maxResultsPerRequest;
         } catch (MalformedURLException e) {
             logger.fatal("Url is not valid: " + accessUrl);
             e.printStackTrace();
@@ -48,7 +50,8 @@ public class BoardAccessorBase implements BoardAccessor {
                 .path(user).path(board)
                 .queryParam(Constants.ACCESS_TOKEN.getConstant(), AccessorsManager.getAccessToken())
 //                .queryParam(Constants.FIELDS.getConstant(), "id,name,url");
-                .queryParam(Constants.FIELDS.getConstant(), "id,name,url,counts,created_at,creator,description,image,privacy,reason");
+                .queryParam(Constants.FIELDS.getConstant(), "id,name,url,counts,created_at,creator,description,image,privacy,reason")
+                .queryParam(Constants.LIMIT.getConstant(), maxResultsPerRequest);
         Response response = target.request(MediaType.APPLICATION_JSON).get();
 
         short status = (short) response.getStatus();
@@ -125,7 +128,8 @@ public class BoardAccessorBase implements BoardAccessor {
                 .path(user).path(board).path(Constants.PINS_PATH.getConstant())
                 .queryParam(Constants.ACCESS_TOKEN.getConstant(), AccessorsManager.getAccessToken())
 //                .queryParam(Constants.FIELDS.getConstant(), "id,link,note,url");
-                .queryParam(Constants.FIELDS.getConstant(), "id,link,note,url,original_link,attribution,board,color,counts,created_at,creator,image,media,metadata");
+                .queryParam(Constants.FIELDS.getConstant(), "id,link,note,url,original_link,attribution,board,color,counts,created_at,creator,image,media,metadata")
+                .queryParam(Constants.LIMIT.getConstant(), maxResultsPerRequest);
         Response response = target.request(MediaType.APPLICATION_JSON).get();
 
         short status = (short) response.getStatus();
