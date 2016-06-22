@@ -6,11 +6,13 @@ import eu.europeana.accessors.MeAccessor;
 import eu.europeana.common.AccessorsManager;
 import eu.europeana.exceptions.BadRequest;
 import eu.europeana.exceptions.DoesNotExistException;
+import eu.europeana.model.PinsData;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.FileNotFoundException;
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 
 /**
@@ -19,7 +21,7 @@ import java.net.URISyntaxException;
  */
 public class Main {
     private static final Logger logger = LogManager.getLogger();
-    public static void main(String[] args) throws FileNotFoundException, ConfigurationException, DoesNotExistException, BadRequest, URISyntaxException {
+    public static void main(String[] args) throws FileNotFoundException, ConfigurationException, DoesNotExistException, BadRequest, URISyntaxException, MalformedURLException {
         logger.info("Started in Main");
 
         //INITIALIZE START
@@ -39,7 +41,10 @@ public class Main {
 
 //        System.out.println(boardAccessor.getAllMyBoards());
 
-        System.out.println(meAccessor.getAllMyBoardsDisplayName());
+//        System.out.println(boardAccessor.getPinsFromBoard("europeana", "heroes"));
+        PinsData allPinsFromBoard = boardAccessor.getAllPinsFromBoard("europeana", "nymphs");
+
+//        System.out.println(meAccessor.getAllMyBoardsDisplayName());
         //PLAYGROUND END
 
 

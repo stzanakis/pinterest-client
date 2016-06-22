@@ -6,6 +6,7 @@ import eu.europeana.exceptions.BadRequest;
 import eu.europeana.exceptions.DoesNotExistException;
 import eu.europeana.model.BoardData;
 import eu.europeana.model.Constants;
+import eu.europeana.model.Page;
 import eu.europeana.model.PinsData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -73,6 +74,49 @@ public class BoardAccessorBase implements BoardAccessor {
             return null;
         }
         return null;
+    }
+
+    public PinsData getAllPinsFromBoard(String user, String board) throws DoesNotExistException, BadRequest, MalformedURLException {
+        PinsData allpinsFromBoard = getPinsFromBoard(user, board);
+        Page page = allpinsFromBoard.getPage();
+        String next = allpinsFromBoard.getPage().getNext();
+        while(page != null && next != null) {
+                logger.debug("In page next");
+                PinsData pinsFromBoard = getPinsFromBoard(new URL(next));
+                allpinsFromBoard.getPins().addAll(pinsFromBoard.getPins());
+                page = pinsFromBoard.getPage();
+                if(page != null)
+                    next = page.getNext();
+        }
+        if(page != null || next != null)
+            allpinsFromBoard.setPage(new Page(null, null));
+
+        return allpinsFromBoard;
+    }
+
+    public PinsData getPinsFromBoard(URL url) throws DoesNotExistException, BadRequest {
+        WebTarget target = client.target(url.toString());
+        Response response = target.request(MediaType.APPLICATION_JSON).get();
+
+        short status = (short) response.getStatus();
+
+        if (status == 200) {
+            PinsData pinsData = response.readEntity(PinsData.class);
+            logger.info("getPinsFromBoard: " + target.getUri() + ", response: " + status + ", returned a list of results!");
+            return pinsData;
+        }
+        else{
+            String errorString = response.readEntity(String.class);
+            logger.error(errorString);
+            switch (status)
+            {
+                case 400:
+                    throw new BadRequest(errorString);
+                case 404:
+                    throw new DoesNotExistException(errorString);
+            }
+            return null;
+        }
     }
 
     public PinsData getPinsFromBoard(String user, String board) throws DoesNotExistException, BadRequest {

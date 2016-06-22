@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
 
 /**
  * @author Simon Tzanakis (Simon.Tzanakis@europeana.eu)
@@ -16,22 +17,22 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class BoardsData {
     @XmlElement(name = "data")
-    private Board[] boards;
+    private ArrayList<Board> boards;
     private Page page;
 
     public BoardsData() {
     }
 
-    public BoardsData(Board[] boards, Page page) {
+    public BoardsData(ArrayList<Board> boards, Page page) {
         this.boards = boards;
         this.page = page;
     }
 
-    public Board[] getBoards() {
+    public ArrayList<Board> getBoards() {
         return boards;
     }
 
-    public void setBoards(Board[] boards) {
+    public void setBoards(ArrayList<Board> boards) {
         this.boards = boards;
     }
 
