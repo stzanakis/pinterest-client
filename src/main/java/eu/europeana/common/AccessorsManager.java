@@ -68,7 +68,7 @@ public class AccessorsManager {
         return accessUrl_key;
     }
 
-    public String getDefaultPropertiesPath() {
+    public static String getDefaultPropertiesPath() {
         return defaultPropertiesPath;
     }
 
