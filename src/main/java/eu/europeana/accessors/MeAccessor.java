@@ -29,7 +29,7 @@ public interface MeAccessor {
      * @throws DoesNotExistException
      * @throws URISyntaxException
      */
-    public List<String> getAllMyBoardsInternalName() throws BadRequest, DoesNotExistException, URISyntaxException;
+    public List<String> getAllMyBoardsInternalName(String targetUser) throws BadRequest, DoesNotExistException, URISyntaxException;
 
     /** Retrieves all boards by requesting only the name and creates a list out of them.
      * @return List of all the board diplay

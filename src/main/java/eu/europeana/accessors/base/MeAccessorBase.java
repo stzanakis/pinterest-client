@@ -81,14 +81,16 @@ public class MeAccessorBase implements MeAccessor {
         return retrieveAllMyBoards("id,name,url,counts,created_at,creator,description,image,privacy,reason");
     }
 
-    public List<String> getAllMyBoardsInternalName() throws BadRequest, DoesNotExistException, URISyntaxException {
+    public List<String> getAllMyBoardsInternalName(String targetUser) throws BadRequest, DoesNotExistException, URISyntaxException {
         BoardsData boardsData = retrieveAllMyBoards("url");
 
         LinkedList<String> boardsInternalNames = new LinkedList<String>();
         for (Board board :
                 boardsData.getBoards()) {
             String boardInternalName = Tools.retrieveLastPathFromUrl(board.getUrl());
-            boardsInternalNames.add(boardInternalName);
+            String completeBoardName = targetUser + "/" + boardInternalName;
+            if(board.getUrl().contains(targetUser + "/"))
+                boardsInternalNames.add(boardInternalName);
         }
         return boardsInternalNames;
     }
